@@ -36,6 +36,9 @@ app.use('/premium', premiumFeatureRoutes);
 app.use('/password', forgotPassword);
 app.use('/report',reportRoutes);
 
+app.use((req,res,next)=>{
+  res.sendFile(path.join(__dirname, `FrontEnd/${req.url}`))
+})
 Users.hasMany(Expense);
 Expense.belongsTo(Users);
 
