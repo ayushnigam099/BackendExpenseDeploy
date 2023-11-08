@@ -1,37 +1,46 @@
+/* Common styles for all screen sizes */
 body {
     background: linear-gradient(to bottom, #f0f0f0, #c0c0c0);
     font-family: Arial, sans-serif;
     text-align: center;
+    margin: 0; /* Remove default body margin */
 }
+
 h1 {
     background: linear-gradient(to right, #ff99cc, #ff6666);
     color: white;
     padding: 20px 0;
 }
+
 .container {
     display: flex;
     justify-content: center;
     margin: 20px;
 }
+
 .report-column {
-    width: 45%;
+    width: 100%; /* Adjust width for smaller screens */
     padding: 20px;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .table th, .table td {
     padding: 10px;
     text-align: center;
     border: 1px solid #dddddd;
 }
+
 .table th {
     background: #f2f2f2;
 }
+
 .button {
     background: linear-gradient(to right, #99ccff, #6699ff);
     color: white;
@@ -40,6 +49,19 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .button:hover {
     background: linear-gradient(to right, #6699ff, #3366ff);
+}
+
+/* Media query for screens 768px and smaller */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack columns for smaller screens */
+    }
+
+    .report-column {
+        width: 100%; /* Full width for smaller screens */
+        margin: 10px; /* Adjust margin for spacing between columns */
+    }
 }
