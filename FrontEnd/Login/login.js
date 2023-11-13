@@ -7,7 +7,7 @@ async function SignIn(e){
         email: e.target.email.value,
         password: e.target.password.value
     }
-    const response= await axios.post("http://54.197.148.201:3000/user/signin", details);
+    const response= await axios.post("http://54.197.148.201/user/signin", details);
     if(response.status === 200)     
     {
         alert("User Successfully Logged In!")

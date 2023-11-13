@@ -51,7 +51,7 @@ function showLeaderboard() {
     showLeaderboardBtn.addEventListener("click", async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get('http://54.197.148.201:3000/premium/showLeaderBoard', { headers: { "Authorization": token } });
+            const response = await axios.get('http://54.197.148.201/premium/showLeaderBoard', { headers: { "Authorization": token } });
             const userLeaderBoardArray = response.data;
 
             userLeaderBoardArray.forEach((userDetails, index) => {
@@ -90,7 +90,7 @@ async function create(e) {
         reports();
         }
 
-    let {data}= await axios.get(`http://54.197.148.201:3000/expense/getexpense?page=${page}&limit=${localStorage.getItem(
+    let {data}= await axios.get(`http://54.197.148.201/expense/getexpense?page=${page}&limit=${localStorage.getItem(
         "limit"
       )}`, { headers: {"Authorization":token}})
     //   console.log(data.data)
@@ -141,7 +141,7 @@ function createExpenseElement(expense) {
     <td>${expense.category}</td>
     <td>
         <button class="delete-btn" onclick="onDelete(event, ${expense.id})">Delete</button>
-        <button class="edit-btn" onclick="onEdit(${expense.id})">Edit</button>
+        <button class="edit-btn" onclick="onEdit(event, ${expense.id})">Edit</button>
     </td>
 </tr>`;
 }
@@ -158,7 +158,7 @@ async function onSubmit(e) {
                 };
             
             const token  = localStorage.getItem('token');
-            const { data } = await axios.post("http://54.197.148.201:3000/expense/addexpense", details, { headers: {"Authorization" : token} });
+            const { data } = await axios.post("http://54.197.148.201/expense/addexpense", details, { headers: {"Authorization" : token} });
             expenseList.innerHTML =  createExpenseElement(data.Success) + expenseList.innerHTML
         }
         catch (err) {
@@ -179,7 +179,7 @@ async function onDelete(e, id) {
     try {
         const token = localStorage.getItem('token');
      
-        const response = await axios.delete(`http://54.197.148.201:3000/expense/deleteexpense/${id}`, {
+        const response = await axios.delete(`http://54.197.148.201/expense/deleteexpense/${id}`, {
             headers: { "Authorization": token }
         });
         alert(`${response.data.message}`);
@@ -214,7 +214,7 @@ async function createBtn(page){
             showLeaderboard()
             }
     
-        let {data}= await axios.get(`http://54.197.148.201:3000/expense/getexpense?page=${page}&limit=${localStorage.getItem(
+        let {data}= await axios.get(`http://54.197.148.201/expense/getexpense?page=${page}&limit=${localStorage.getItem(
             "limit"
           )}`, { headers: {"Authorization":token}})
           console.log(data.data)
@@ -278,12 +278,11 @@ function showPagination({ previous, current, next, start, end, count }) {
     localStorage.setItem("limit", parseInt(pageDropValue.value));
     location.reload();
   });
-  //
 
 
 document.getElementById('rzp-button1').onclick = async function (e) {
     const token = localStorage.getItem('token')
-    const response  = await axios.get('http://54.197.148.201:3000/purchase/premiummembership', { headers: {"Authorization" : token} });
+    const response  = await axios.get('http://54.197.148.201/purchase/premiummembership', { headers: {"Authorization" : token} });
     console.log(response);
     var options =
     {
@@ -291,7 +290,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
      "order_id": response.data.order.id,// For one time payment
      // This handler function will handle the success payment
      "handler": async function (response) {
-        const res = await axios.post('http://54.197.148.201:3000/purchase/updatetransactionstatus',{
+        const res = await axios.post('http://54.197.148.201/purchase/updatetransactionstatus',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} })
@@ -315,7 +314,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     alert('Something went wrong');
 
     // Add the logic to update the order status to FAILED
-    const res = await axios.post('http://54.197.148.201:3000/purchase/updatetransactionstatus', {
+    const res = await axios.post('http://54.197.148.201/purchase/updatetransactionstatus', {
         order_id: options.order_id,
         payment_id: response.error.metadata.order_id, 
         status: 'FAILED', 
@@ -325,9 +324,14 @@ document.getElementById('rzp-button1').onclick = async function (e) {
 });
 }
 
+async function onEdit(e, id)
+{
+    e.preventDefault();
+}
+
 logOut.addEventListener("click", (e) => {
     e.preventDefault();
     localStorage.clear();
-    location.replace("http://54.197.148.201:3000/FrontEnd/Login/login.html");
+    location.replace("http://54.197.148.201/Login/login.html");
     
   });
